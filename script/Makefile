@@ -8,7 +8,7 @@ FILE_IN_A=CatshortV.0088.00.DAT
 FILE_IN_B=CatshortV.0088.01.DAT
 FILE_IN=CatshortV.0088.DAT
 
-all: $(PATH_OUT)PairIndex$(FILE_IN)
+all: $(PATH_OUT)properties_memberA.dat $(PATH_OUT)properties_memberB.dat 
 
 
 sample: 
@@ -18,11 +18,18 @@ $(PATH_OUT)MassiveMain$(FILE_IN_A)
 $(PATH_OUT)MassiveMain$(FILE_IN_B)
 	cat $(PATH_OUT)MassiveMain$(FILE_IN_A) $(PATH_OUT)MassiveMain$(FILE_IN_B) > $(PATH_OUT)MassiveMain$(FILE_IN)
 
-$(PATH_OUT)AllPairIndex$(FILE_IN) : $(PATH_OUT)MassiveMain$(FILE_IN) $(EXEC_PATH)correlate.x
-	$(EXEC_PATH)./correlate.x $(PATH_OUT)MassiveMain$(FILE_IN) $(PATH_OUT)MassiveMain$(FILE_IN) $(PATH_OUT)AllPairIndex$(FILE_IN) 80 400.0 0.0 > output.dat 
+
+$(PATH_OUT)properties_memberA.dat: $(PATH_OUT)PairIndex$(FILE_IN) $(EXEC_PATH)dump_pair_properties.py 
+	python $(EXEC_PATH)dump_pair_properties.py $(PATH_OUT)PairIndex$(FILE_IN) $(PATH_OUT)MassiveMain$(FILE_IN) $(PATH_OUT)
+
 
 $(PATH_OUT)PairIndex$(FILE_IN) : $(PATH_OUT)AllPairIndex$(FILE_IN) $(EXEC_PATH)quick_pair.x
 	$(EXEC_PATH)./quick_pair.x $(PATH_OUT)AllPairIndex$(FILE_IN) > $(PATH_OUT)PairIndex$(FILE_IN)
+
+$(PATH_OUT)AllPairIndex$(FILE_IN) : $(PATH_OUT)MassiveMain$(FILE_IN) $(EXEC_PATH)correlate.x
+	$(EXEC_PATH)./correlate.x $(PATH_OUT)MassiveMain$(FILE_IN) $(PATH_OUT)MassiveMain$(FILE_IN) $(PATH_OUT)AllPairIndex$(FILE_IN) 80 400.0 0.0 > output.dat 
+
+
 
 
 $(EXEC_PATH)correlate.x: $(EXEC_PATH)correlate_cl.c $(EXEC_PATH)struct.h
@@ -43,3 +50,4 @@ clean_deep:
 clean:
 	rm -f $(PATH_OUT)AllPairIndex$(FILE_IN) 
 	rm -f $(PATH_OUT)PairIndex$(FILE_IN) 
+	rm -f $(PATH_OUT)properties_memberA.dat $(PATH_OUT)properties_memberB.dat 
