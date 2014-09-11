@@ -200,7 +200,7 @@ void find_closest_linked(float pos[3], float **cluster_data, int n_cluster, floa
 		    my_pos[1] = cluster_data[next_ID][CL_P_Y];
 		    my_pos[2] = cluster_data[next_ID][CL_P_Z];
 		    my_mass = cluster_data[next_ID][CL_MASS];
-		    my_radius = cluster_data[next_ID][CL_R_SPH];
+		    my_radius = cluster_data[next_ID][CL_R_VIR]/1000.0; /*This is valif if the data comes in kpc*/
 
 		    if(eff_i>i){
 			my_pos[0] -= l_box;
@@ -301,7 +301,7 @@ void find_second_closest_linked(float pos[3], float mass_1, float mass_2, float 
 		    my_pos[1] = cluster_data[next_ID][CL_P_Y];
 		    my_pos[2] = cluster_data[next_ID][CL_P_Z];		    
 		    my_mass = cluster_data[next_ID][CL_MASS];
-		    my_radius = cluster_data[next_ID][CL_R_SPH];
+		    my_radius = cluster_data[next_ID][CL_R_VIR]/1000.0; /*valid if radius comes in kpc/h*/
 
 		    if(eff_i>i){
 			my_pos[0] -= l_box;
@@ -370,20 +370,10 @@ void find_second_closest_linked(float pos[3], float mass_1, float mass_2, float 
     
     rewind(filein);
 
-    /*read the header*/
-    box_size = -1.0;
-    redshift = -1.0;
-    dm_particle_mass = -1.0;    
-    //    fscanf(filein, "%f %f %f %s", &box_size, &redshift, &dm_particle_mass, line);    
-/*    fprintf(stdout, "%f %f %f %s", box_size, redshift, dm_particle_mass, line);    */
 
     printf("file %s | n_lines %d\n", fname, num_lines);
     n_halos = num_lines ;
 
-    //    n_halos = num_lines  - 3;
-
-    /*the number of items that are allocated are n_lines-3 and the number of columns
-      is HALO_DATA_N_COL*/
     /* memory allocation*/    
     if(!(dummy = malloc((n_halos)*sizeof(float *))))
     {
@@ -398,12 +388,7 @@ void find_second_closest_linked(float pos[3], float mass_1, float mass_2, float 
 	}
     }
 
-    /*now I read the first three lines full of comments and info*/
-    //    fgets(line, MAX_FILE_NAME, filein);
-    //    fprintf(stdout, "%s\n", line);
-    //    fgets(line, MAX_FILE_NAME, filein);
-    //    fgets(line, MAX_FILE_NAME, filein);
-    /*  fprintf(stdout, "last discarded line %s\n", line);    */
+
     for(i=0;i<n_halos;i++)
     {
 	/*read the line*/
