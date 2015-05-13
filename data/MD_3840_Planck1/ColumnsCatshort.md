@@ -1,0 +1,14 @@
+1. X(Mpc/h)      
+2. Y(Mpc/h)      
+3. Z(Mpc/h)     
+4. Vx(km/s)
+5. Vy(km/s)
+6. Vy(km/s)
+7. Mbound(Msun/h)
+8. Mtot(Msun/h)
+9. Rvir(kpc/h) 
+10. Vrms(km/s) 
+11. Vcirc(km/s)   
+12. Nhalo  
+13. Cvir    
+14. Nparticles
