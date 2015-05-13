@@ -97,16 +97,22 @@ int main(int argc, char **argv){
     }
     fprintf(stdout, "finished initialization linked list\n");
 
+    fprintf(stdout, "starte making linked list\n");
     /*make the linked list*/
     for(j=0;j<n_cluster_2;j++){
-       	int_i = (int)(cluster_data_2[j][CL_P_X]/cell_size);
+      if(j<100){
+	fprintf(stdout, "%d out of %d\n", j, n_cluster_1);fflush(stdout);
+      }
+      int_i = (int)(cluster_data_2[j][CL_P_X]/cell_size);
 	int_j = (int)(cluster_data_2[j][CL_P_Y]/cell_size);
 	int_k = (int)(cluster_data_2[j][CL_P_Z]/cell_size);
 	if(int_i==n_side) int_i--;
 	if(int_j==n_side) int_j--;
 	if(int_k==n_side) int_k--;
 
-//	fprintf(stdout, "i, j, k side %d %d %d %d\n", int_i, int_j, int_k, n_side);
+	//	fprintf(stdout, "iteration %d i, j, k side %d %d %d %d\n", j, int_i, int_j, int_k, n_side);
+	//	fflush(stdout);
+
 	index = int_k + n_side*(int_j + n_side*int_i);
 	
 	n_ID[index]++;
@@ -116,7 +122,9 @@ int main(int argc, char **argv){
 
     fprintf(stdout, "finished linked list\n");
     for(i=0;i<n_cluster_1;i++){
-//    for(i=0;i<5000;i++){
+      if(i<100){
+	fprintf(stdout, "%d out of %d\n", i, n_cluster_1);fflush(stdout);
+      }
 	pos[0] = cluster_data_1[i][CL_P_X];
 	pos[1] = cluster_data_1[i][CL_P_Y];
 	pos[2] = cluster_data_1[i][CL_P_Z];
